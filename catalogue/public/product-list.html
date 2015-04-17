@@ -1,0 +1,28 @@
+<div class="col-sm-4 col-sm-offset-4" >
+   <!--  <div class="checkbox" ng-repeat="product in products">
+        <label>
+            <input type="checkbox" ng-click="deleteProduct(product.productId)"> {{ product.productName }}
+        </label>
+     </div>-->
+
+<!-- <tbody> <tr ng-repeat="item in items | filter: searchFilter" class="ng-scope"><td class="ng-binding">1</td><td class="ng-binding">AO</td></tbody>
+ -->
+
+    <div class="row" ng-repeat="product in products">
+      <div class="col-md-8">ProductId: {{product.productId}}</div>
+      <div class="col-md-4">Quantity: {{product.quantity}}</div>
+    </div>
+</div>
+
+<!-- 
+<div id="product-list" class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+
+        <div class="checkbox" ng-repeat="product in products">
+            <label>
+                <input type="checkbox" ng-click="deleteProduct(product.productId)"> {{ product.productName }}
+            </label>
+        </div>
+
+    </div>
+</div> -->

@@ -1,0 +1,16 @@
+{
+  "name"         : "eStore",
+  "version"      : "0.0.0",
+  "description"  : "Simple eStore application.",
+  "main"         : "server.js",
+  "author"       : "NR",
+  "dependencies" : {
+    "express"    : "~4.7.2",
+    "mongoose"   : "~3.6.2",
+    "morgan"     : "~1.2.2",
+    "body-parser": "~1.5.2",
+    "method-override": "~2.1.2",
+    "optimi"
+    "angular-bootstrap": "~0.12.0"
+    }
+}

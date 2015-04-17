@@ -1,0 +1,50 @@
+<div class="row">
+  <form role="form">
+    <div class='loading'>
+      <div class='center'><img style="display:block; position: absolute; left: 250px;  margin:auto" alt='loading' src='/assets/img/loading.gif' height="40" width="40" ng-show="loading"/></div>
+    </div>
+  <div id="product-view" >
+    <!-- <div class="padded" style="background-color: cyan; border-style: solid; border-width: 1px"></div> -->
+    <div class="row" >
+      <div class="col-md-6 col-md-offset-3">
+          Product Search:
+     </div>
+     </div> 
+    <div class="row" >
+      <div class="col-md-6 col-md-offset-3">
+        <div class="row">            
+            <!-- <input type="text" ng-model="selected" typeahead="state for state in states| filter:$viewValue | limitTo:8" class="form-control"/> -->
+              <div class="col-md-10" style="padding-bottom: 15px">
+              <input type="text" ng-model="selected" typeahead="prod.productName for prod in products | filter:$viewValue | limitTo:8" class="form-control"  placeholder="Products Typeahead" class="form-control" , typeahead-on-select="onProductSelect($item);") />
+              </div>
+              <div class="col-md-2"> 
+                <button type="submit" class="btn btn-default" ng-click="resetSearch()"><span class="glyphicon glyphicon-remove"></span></button>
+              </div>
+            <!-- <input(type="text", ng-model="product", typeahead="prod.productId as prod.productName for prod in products | filter:$viewValue ", placeholder="Products Typeahead")> -->
+        </div>
+        <div class="padded" style="background-color: cyan"></div>
+        <div class="row" >
+            <div class="col-md-6" style="float: left"> Product Id : {{selectedProduct.productId}}</div>
+            <div class="col-md-6" style="float: right"> Quantity : {{selectedProduct.quantity}}</div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="row" >
+          <div class="col-md-12"> Product Name : 
+            <input type="text" ng-model=selectedProduct.productName ng-keyup="$event.keyCode == 13 && updateProduct()" />
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-md-12"> Cost Price : {{selectedProduct.costPrice}} </div>
+        </div>
+        <div class="padded" style="background-color: cyan"></div>
+        <div class="row">
+          <div class="col-md-4"> Selling Price : </div>
+          <div class="col-md-8">
+            <input type="text" ng-model=selectedProduct.sellingPrice ng-keyup="$event.keyCode == 13 && updateProduct()" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>

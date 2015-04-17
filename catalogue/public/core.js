@@ -1,0 +1,117 @@
+// public/core.js
+var eStore = angular.module('eStore', ['ui.bootstrap', 'ngRoute']);
+
+ eStore.config(['$routeProvider',function($routeProvider) {
+        $routeProvider
+            // route for the home page
+            // .when('/', {
+            //     templateUrl : 'main.html',
+            //     controller  : 'mainController'
+            // })
+
+            // route for the about page
+            .when('/', {
+                templateUrl : 'product-view.html',
+                // templateUrl : 'product-list.html',
+                controller  : 'mainController'
+            })
+
+            // route for the contact page
+            .when('/products/new', {
+                templateUrl : 'product-form.html',
+                controller  : 'mainController'
+            })
+
+            .when('/product-view-static', {
+                templateUrl : 'product-view-static.html',
+                // templateUrl : 'product-list.html',
+                controller  : 'mainController'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }]);
+
+function mainController($scope, $http) {
+    $scope.formData = {};
+    $scope.addItem = {};
+    $scope.selected = undefined;
+    $scope.selectedProduct = {};
+    $scope.loading = false;
+
+    // when landing on the page, get all Products and show them
+    $http.get('/api/products')
+        .success(function(data) {
+            $scope.products = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    // when submitting the add form, send the text to the node API
+    $scope.createProduct = function() {
+        $http.post('/api/products', $scope.addItem)
+            .success(function(data) {
+                // $scope.formData = {}; // clear the form so our user is ready to enter another
+                $scope.addItem = {}; // clear the form so our user is ready to enter another
+                $scope.products = data;
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // delete a Product after checking it
+    $scope.deleteProduct = function(id) {
+        $http.delete('/api/products/' + id)
+            .success(function(data) {
+                $scope.products = data;
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    // Update a Product 
+    $scope.updateProduct = function() {
+        // $scope.loading = true;
+        console.log('inside updateProduct!');
+        $http.put('/api/products/' + $scope.selectedProduct.productId, $scope.selectedProduct)
+            .success(function(data) {
+                $scope.products = data;
+                console.log(data);
+                $scope.loading = false;
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+                $scope.loading = false;
+            });
+    };
+
+    $scope.onProductSelect = function($item) {
+        $scope.selectedProduct = $.extend({}, $item);
+        console.log($scope.selectedProduct);
+       //  $http.get('/api/products')
+       //  .success(function(data) {
+       //      $scope.products = data;
+       //      console.log(data);
+       //      $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+       //      console.log($scope.states);
+       //  })
+       //  .error(function(data) {
+       //      console.log('Error: ' + data);
+       //  });
+
+       //  nContact.contactType = contactType;
+       // $scope.rbi.contacts.push(nContact);
+    };
+
+    $scope.resetSearch = function(){
+        $scope.selected = undefined;
+        $scope.selectedProduct = undefined;
+    }
+
+}

@@ -1,0 +1,10 @@
+{"port": "2222"
+
+, "environment": "development"
+
+, "database": "estore"
+, "dbuser": "estore"
+, "dbpassword": "estore"
+, "dbserver": "61711.mongolab.com:61711"
+, "dbport": 3306
+}

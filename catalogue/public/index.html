@@ -1,0 +1,62 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html >
+<head>
+    <!-- META -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta name="ngApp" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">--><!-- Optimize mobile viewport --> 
+
+    <title>eStore</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #eStore		            { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.js"></script>
+   	<!--script type="text/javascript" scr="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap-tpls.min.js"></script-->
+   	<!--script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.12.1.js"></script-->
+   	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28//angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  
+    <script src="core.js"></script>
+    <style>
+		.outlined-row > div {
+			background-color: white;
+			/*background-color: #dedef8;*/
+			box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;
+		}
+	</style>
+</head>
+<body ng-app="eStore">
+
+  <div class="container" ng-controller="mainController" class="row col-md-6 col-md-offset-3">
+
+  <div class="row">
+    <ul class="nav nav-tabs row col-md-6 col-md-offset-3">
+        <li><a href="#/">Product Catalogue</a></li>
+        <li><a href="#/products/new">Add More</a></li>
+    </ul>
+	<div ng-view >
+	      <!--
+	         This DIV loads templates depending upon route.
+	     -->
+	</div>
+  </div>
+  </div>
+</body>
+</html>
