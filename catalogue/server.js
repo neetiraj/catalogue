@@ -92,8 +92,7 @@ app.post('/api/products', function(req, res){
 		} else {
 			console.log('Success inserting product : ' + product.productName );
 			Product.find(function(err, products){
-				if (err)
-                    res.send(err)
+				if (err) res.send(err)
                 res.json(products);
 			})
 		}
@@ -118,8 +117,7 @@ app.put('/api/products/:productId', function(req, res){
 				} else {
 					// res.send(product);
 					Product.find(function(err, products){
-						if (err)
-		                    res.send(err)
+						if (err) res.send(err)
 		                res.json(products);
 					})		
 				}
@@ -136,8 +134,7 @@ app.delete('/api/products/:productId', function(req, res){
 			res.json({"code": 500, "error": "Error in deleting product details for " + productId});
 		} else {		
 			Product.find(function(err, products){
-				if (err)
-                    res.send(err)
+				if (err) res.send(err)
                 res.json(products);
 			})		
 		}

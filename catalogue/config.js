@@ -8,6 +8,3 @@ MongoClient.connect("mongodb://estore:estore@ds061711.mongolab.com:61711/estore"
     });
   }
 });
-
-// To export just above variables
-exports.sequelize = sequelize

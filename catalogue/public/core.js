@@ -3,16 +3,8 @@ var eStore = angular.module('eStore', ['ui.bootstrap', 'ngRoute']);
 
  eStore.config(['$routeProvider',function($routeProvider) {
         $routeProvider
-            // route for the home page
-            // .when('/', {
-            //     templateUrl : 'main.html',
-            //     controller  : 'mainController'
-            // })
-
-            // route for the about page
             .when('/', {
                 templateUrl : 'product-view.html',
-                // templateUrl : 'product-list.html',
                 controller  : 'mainController'
             })
 
@@ -22,11 +14,6 @@ var eStore = angular.module('eStore', ['ui.bootstrap', 'ngRoute']);
                 controller  : 'mainController'
             })
 
-            .when('/product-view-static', {
-                templateUrl : 'product-view-static.html',
-                // templateUrl : 'product-list.html',
-                controller  : 'mainController'
-            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -53,7 +40,6 @@ function mainController($scope, $http) {
     $scope.createProduct = function() {
         $http.post('/api/products', $scope.addItem)
             .success(function(data) {
-                // $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.addItem = {}; // clear the form so our user is ready to enter another
                 $scope.products = data;
                 console.log(data);
@@ -94,19 +80,6 @@ function mainController($scope, $http) {
     $scope.onProductSelect = function($item) {
         $scope.selectedProduct = $.extend({}, $item);
         console.log($scope.selectedProduct);
-       //  $http.get('/api/products')
-       //  .success(function(data) {
-       //      $scope.products = data;
-       //      console.log(data);
-       //      $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-       //      console.log($scope.states);
-       //  })
-       //  .error(function(data) {
-       //      console.log('Error: ' + data);
-       //  });
-
-       //  nContact.contactType = contactType;
-       // $scope.rbi.contacts.push(nContact);
     };
 
     $scope.resetSearch = function(){
