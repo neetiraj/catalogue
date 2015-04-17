@@ -2,9 +2,7 @@ var express = require('express')
 , http = require('http')
 , app = express()
 , path = require("path")
-// , optimist = require('optimist')
 , cc = require('config-chain')
-// , argv = optimist.argv
 , mongoose = require('mongoose')
 , Schema = mongoose.Schema
 , morgan = require('morgan')             // log requests to the console (express4)
@@ -24,32 +22,14 @@ var globals = require("./globals").globalParams
 var config = cc( path.join(__dirname, app.get('env')+'.json'))
 
 
-// Retrieve
-// var MongoClient = require('mongodb').MongoClient;
-// // Connect to the db
-// MongoClient.connect("mongodb://estore:estore@ds061711.mongolab.com:61711/estore", function(err, db) {
-//   if(!err) {
-//     console.log("We are connected");
-//     db.createCollection('products', function(err, collection) {
-//     	console.log('estore Products collection initialized ... ')
-//     });
-//   }
-// });
-
 // Database
 try{
 	mongoose.connect('mongodb://estore:estore@ds061711.mongolab.com:61711/estore');
-	// mongoose.connect('mongodb://' + config.store.dbuser + ':' + config.store.dbpassword + '@' + config.store.dbserver + '/' + config.store.database)
 } catch(e) {
     console.log('Exception....');
     console.log(e);
 }
 mongoose.set('debug', true)
-
-// application -------------------------------------------------------------
-// app.get('*', function(req, res) {
-//     res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-// });
     
 http.createServer(app).listen(config.store.port);
 
@@ -82,7 +62,6 @@ app.get('/api/products', function(req, res){
 	Product.find({}, function (err, products) {
 		if (err){
 			console.log("Error in fetching products list - " + err);
-			// res.json({"code": 500, "error": "Error in fetching products list."});
 			res.send(err);
 		} else {
 			console.log(products.length + ' Products were fetched from mongo ')
@@ -103,14 +82,6 @@ app.post('/api/products', function(req, res){
 	,	sellingPrice: req.body.sellingPrice
 	,	quantity: req.body.quantity
 	});
-	// var product = new Product({
-	// 	productId: 1
-	// ,	productName: "DEll Latitude E77440"
-	// ,	costPrice: 2131
-	// ,	sellingPrice: 6778
-	// ,	quantity: 20
-	// });
-	// var product = {"productId": "1234", "productName": "DEll Latitude E77440", "costPrice": "2131", "sellingPrice": "6778", "quantity": "20"};
 
 	console.log(product);
     product.save(function (err) {
@@ -127,16 +98,6 @@ app.post('/api/products', function(req, res){
 			})
 		}
     })
-
-	// products.insert(product, {w:1}, function(err, result) {
-	// 	if (err){
-	// 		console.log('Error while inserting product : ' + productName + ' - ' + err);
-	// 		return res.json({"code": 500, "error": err});
-	// 	} else {
-	// 		console.log('Success inserting product : ' + productName );
-	// 		return res.json({"total": total, "start": start, "limit": limit, "items": result})
-	// 	}
-	// });
 })
 
 app.put('/api/products/:productId', function(req, res){
@@ -174,7 +135,6 @@ app.delete('/api/products/:productId', function(req, res){
 			console.log("Error in deleting product - " + err);
 			res.json({"code": 500, "error": "Error in deleting product details for " + productId});
 		} else {		
-			// res.sendStatus(204);
 			Product.find(function(err, products){
 				if (err)
                     res.send(err)
