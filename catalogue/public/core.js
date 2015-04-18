@@ -25,6 +25,7 @@ function mainController($scope, $http) {
     $scope.selected = undefined;
     $scope.selectedProduct = {};
     $scope.loading = false;
+    $scope.customValidationSP = false;
 
     // when landing on the page, get all Products and show them
     $http.get('/api/products')
@@ -63,18 +64,23 @@ function mainController($scope, $http) {
 
     // Update a Product 
     $scope.updateProduct = function() {
-        // $scope.loading = true;
+        $scope.loading = true;
         console.log('inside updateProduct!');
-        $http.put('/api/products/' + $scope.selectedProduct.productId, $scope.selectedProduct)
-            .success(function(data) {
-                $scope.products = data;
-                console.log(data);
-                $scope.loading = false;
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-                $scope.loading = false;
-            });
+        if ($scope.selectedProduct.sellingPrice < $scope.selectedProduct.costPrice){
+            $scope.customValidationSP = true;
+            $scope.loading = false;
+        } else {
+            $http.put('/api/products/' + $scope.selectedProduct.productId, $scope.selectedProduct)
+                .success(function(data) {
+                    $scope.products = data;
+                    console.log(data);
+                    $scope.loading = false;
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                    $scope.loading = false;
+                });
+        }
     };
 
     $scope.onProductSelect = function($item) {
@@ -85,6 +91,7 @@ function mainController($scope, $http) {
     $scope.resetSearch = function(){
         $scope.selected = undefined;
         $scope.selectedProduct = undefined;
+        $scope.customValidationSP = false;
     }
 
 }

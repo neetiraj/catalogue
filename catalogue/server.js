@@ -8,6 +8,8 @@ var express = require('express')
 , morgan = require('morgan')             // log requests to the console (express4)
 , bodyParser = require('body-parser')    // pull information from HTML POST (express4)
 , methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
+// , ValidationError = mongoose.Error.ValidationError
+// , ValidatorError  = mongoose.Error.ValidatorError;
 
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
@@ -47,6 +49,14 @@ var productSchema = new Schema({
   , Product = mongoose.model('Product', productSchema);
 
 
+// productSchema.pre('validate', function(next) {
+//     if (this.costPrice > this.sellingPrice) {
+//     	var error = new ValidationError(this);
+//     	error.errors.sellingPrice = new ValidatorError('sellingPrice', 'Cost Price cannot be greater than selling price !', 'notvalid', this.sellingPrice);
+//     } else {
+//         next();
+//     }
+// });
 
 app.get('/api', function (req, res) {
   res.send('Welcome to eStore!');
@@ -57,17 +67,40 @@ app.get('/api/products', function(req, res){
     , start = req.query["start"] ? parseInt(req.query["start"], 10) : globals.startParam
     , orderBy = req.query["orderBy"] ? req.query["orderBy"] : "productName"
     , orderType = req.query["orderType"] ? req.query["orderType"] : globals.orderType
-    , order = orderBy + ' ' + orderType
+    , findByOperator = req.query["findByOperator"]
+    , findByOperand = req.query["findByOperand"]
+    , sortQuery = {};
 
-	Product.find({}, function (err, products) {
-		if (err){
-			console.log("Error in fetching products list - " + err);
-			res.send(err);
-		} else {
-			console.log(products.length + ' Products were fetched from mongo ')
-			res.json(products);
-		}
-	});
+	sortQuery[orderBy] = orderType;
+
+    switch (findByOperator) {
+	  case ">":
+	  	findByClause = {costPrice: {$gt: findByOperand}}
+	    break;
+	  case "<":
+	    findByClause = {costPrice: {$lt: findByOperand}}
+	    break;
+	  case "=":
+	    findByClause = {costPrice: findByOperand}
+	    break;
+	  default:
+	  	findByClause = {};
+	  	break;
+	}
+
+	Product.find(findByClause)
+	    .limit(limit)
+	    .skip(start)
+	    .sort(sortQuery)
+	    .exec(function(err, products) {
+			if (err){
+				console.log("Error in fetching products list - " + err);
+				res.send(err);
+			} else {
+				console.log(products.length + ' Products were fetched from mongo ');
+				res.json(products);
+			}
+	    })
 })
 
 app.post('/api/products', function(req, res){
@@ -140,3 +173,4 @@ app.delete('/api/products/:productId', function(req, res){
 		}
 	})
 })
+
